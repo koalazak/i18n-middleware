@@ -93,10 +93,24 @@ app.use(session({
   resave: true
 }));
 
-app.use(i18n({
+// old version
+//app.use(i18n({
+//  translationsPath: path.join(__dirname, 'i18n'), // <--- use here. Specify translations files path.
+//  siteLangs: ["en","es"]
+//}));
+
+// new version
+app.use(i18n.init({
   translationsPath: path.join(__dirname, 'i18n'), // <--- use here. Specify translations files path.
   siteLangs: ["en","es"]
 }));
+
+//or
+// new version with translationsPaths option 
+//app.use(i18n({
+//  translationsPaths: [new i18n.translationsPathModel({ area: 'test', translationsPath: path.join(__dirname, 'i18n'))], // <--- use here. Specify translations files path.
+//  siteLangs: ["en","es"]
+//}));
 ...
 
 app.use('/', indexRoutes);
