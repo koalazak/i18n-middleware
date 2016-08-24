@@ -32,12 +32,18 @@ $ npm install i18n-express
 ```js
 var i18n=require("i18n-express");
 
-app.use( i18n(options) );
+// old version
+app.use( i18n(options) ); 
+
+// new version
+app.use( i18n.init(options) ); 
+
 ```
 
 ## Options
 
 - `translationsPath` : *(default: `i18n`)* The path where you store translations json files.
+- `translationsPaths` : *(default: [])* The paths where you store translations json files. But obj model is i18n.translationsPathModel that has two properties. These names are 'area' and 'translationsPath'. translationsPath is same `translationsPath` option but area is different en files to json as {area1: /folder1/en.json, area2: /folder2/en.json}
 - `cookieLangName` : *(default: `ulang`)* If you provide a cookie name, try to get user lang from this cookie.
 - `browserEnable` : *(default: `true`)* If enabled, try to get user lang from browser headers.
 - `defaultLang` :  *(default: `en`)* If all others methods fail, use this lang.
@@ -112,6 +118,9 @@ Now in your ejs view you have `texts` object and `lang` variable with the active
   </ul> 
 
 	<p><%=texts.WELCOME_MSG%></p>
+	
+	if use translationsPaths option
+	<p><%=texts.area(you have written).WELCOME_MSG%></p>
   
 </div>
 ```
@@ -127,7 +136,10 @@ Or in your handlebars view:
   </ul> 
 
 	<p>{{texts.WELCOME_MSG}}</p>
-
+	
+	if use translationsPaths option
+	<p>{{texts.area(you have written).WELCOME_MSG}}</p>
+	
 </div>
 ```
 
