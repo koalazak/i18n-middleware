@@ -53,6 +53,7 @@ exports = module.exports = function (opts) {
   var cookieLangName = opts.cookieLangName || 'ulang';
   var browserEnable = opts.browserEnable !== false;
   var defaultLang = opts.defaultLang || 'en';
+  defaultLang = defaultLang.toLowerCase();
   var paramLangName = opts.paramLangName || 'clang';
   var siteLangs = opts.siteLangs || ['en'];
   var textsVarName = opts.textsVarName || 'texts';
