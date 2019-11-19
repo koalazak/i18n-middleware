@@ -25,7 +25,7 @@ function getLangFromCookie (req, cookieName) {
   }
 }
 
-function loadLangJSONFiles (langPath, defaultLang) {
+function loadLangJSONFiles (langPath, defaultLang, prefix) {
   var i18n = [];
   i18n[defaultLang] = [];
 
@@ -38,7 +38,7 @@ function loadLangJSONFiles (langPath, defaultLang) {
           delete require.cache[require.resolve(langPath + '/' + files[i])];
         } catch (e) {}
 
-        i18n[files[i].split('.').shift().toLowerCase()] = require(langPath + '/' + files[i]);
+        i18n[files[i].split('.').shift().toLowerCase().replace(prefix.toLowerCase(),'')] = require(langPath + '/' + files[i]);
       }
     }
   } else {
@@ -56,6 +56,7 @@ exports = module.exports = function (opts) {
   var paramLangName = opts.paramLangName || 'clang';
   var siteLangs = opts.siteLangs || ['en'];
   var textsVarName = opts.textsVarName || 'texts';
+  var prefix = opts.prefix || '';
 
   if (siteLangs.constructor !== Array) {
     throw new Error('siteLangs must be an Array with supported langs.');
