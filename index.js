@@ -56,6 +56,7 @@ exports = module.exports = function (opts) {
   var paramLangName = opts.paramLangName || 'clang';
   var siteLangs = opts.siteLangs || ['en'];
   var textsVarName = opts.textsVarName || 'texts';
+  var autoReload = opts.autoReload !== false;
 
   if (siteLangs.constructor !== Array) {
     throw new Error('siteLangs must be an Array with supported langs.');
@@ -65,15 +66,17 @@ exports = module.exports = function (opts) {
 
   i18nTranslations = loadLangJSONFiles(translationsPath, defaultLang);
 
-  fs.watch(translationsPath, function (event, filename) {
-    if (filename) {
-      try {
-        i18nTranslations = loadLangJSONFiles(translationsPath, defaultLang);
-      } catch (ee) {
-        // Some editors first empty the file and then save the content. This generate a "Unexpected end of input" error
+  if (autoReload === true) {
+    fs.watch(translationsPath, function (event, filename) {
+      if (filename) {
+        try {
+          i18nTranslations = loadLangJSONFiles(translationsPath, defaultLang);
+        } catch (ee) {
+          // Some editors first empty the file and then save the content. This generate a "Unexpected end of input" error
+        }
       }
-    }
-  });
+    });
+  }
 
   return function i18n (req, res, next) {
     var alreadyTryCookie = false;
